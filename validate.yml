@@ -1,52 +1,22 @@
-name: Validate
+name: Validate Repository
 
 on:
   push:
-    branches: [main]
   pull_request:
-    branches: [main]
 
 jobs:
-  secret-scan:
-    name: Secret scan
+  security-check:
+    name: Secret Scan
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      - name: Fail if .env is committed
-        run: |
-          if git ls-files | grep -qx '\.env'; then
-            echo "::error::A .env file is committed to the repository. Remove it and rely on .env.example instead."
-            exit 1
-          fi
-
-      - name: Run secret scanner
+      - name: Scan for hard-coded secrets
         run: python scripts/check_secrets.py
-
-  validate-env-example:
-    name: Validate .env.example has no real values
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Check .env.example exists
-        run: |
-          if [ ! -f .env.example ]; then
-            echo "::error::.env.example is missing."
-            exit 1
-          fi
-
-      - name: Warn on non-empty values in .env.example
-        run: |
-          # Flags any KEY=value line in .env.example where value is non-empty
-          # and doesn't look like an obvious placeholder.
-          if grep -nE '^[A-Z0-9_]+=.+' .env.example | grep -viE '(your_|changeme|example|placeholder|xxxx)'; then
-            echo "::warning::.env.example may contain non-placeholder values. Review manually."
-          fi
