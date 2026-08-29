@@ -16,10 +16,24 @@ This repository provides a basic structure and rules for an AI coding agent that
 
 ## Structure
 
-- `agent/` — agent instructions
-- `scripts/` — repository validation scripts
-- `.github/workflows/` — GitHub Actions checks
-- `.env.example` — example environment-variable names only
+```
+.
+├── README.md                      # This file
+├── .gitignore                     # Excludes .env, deps, build output from Git
+├── .env.example                   # Placeholder environment-variable names only
+├── agent/
+│   └── AGENTS.md                  # Binding rules for the coding agent
+├── scripts/
+│   └── check_secrets.py           # Hard-coded secret scanner
+└── .github/
+    └── workflows/
+        └── validate.yml           # CI: runs the secret scanner on push/PR
+```
+
+- `agent/AGENTS.md` — agent instructions and rules (read this first)
+- `scripts/check_secrets.py` — run locally before every commit
+- `.github/workflows/validate.yml` — runs the same scan automatically in CI
+- `.env.example` — example environment-variable names only, no real values
 
 ## Local setup
 

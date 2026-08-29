@@ -64,3 +64,25 @@ Example:
 
 ```js
 const apiKey = process.env.API_KEY;
+```
+
+Never place private API keys, provider tokens, database passwords, JWT
+secrets, or service-role keys in frontend/browser code. Private credentials
+are used from the backend/server only.
+
+## 7. Testing and validation
+
+Before finishing a task:
+
+1. Run the secret scanner: `python scripts/check_secrets.py`.
+2. Run any available project tests or build steps.
+3. Run `git diff` and confirm no secret or credential was added.
+
+## 8. Reporting
+
+At the end of every task, report:
+
+- Which files were changed and why.
+- Any configuration, credential, or permission that is missing (never invent
+  a value to fill the gap — state clearly what is required).
+- Any remaining known issue.
