@@ -1,0 +1,22 @@
+name: Validate Repository
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  security-check:
+    name: Secret Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Scan for hard-coded secrets
+        run: python scripts/check_secrets.py
