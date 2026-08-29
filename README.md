@@ -1,46 +1,32 @@
-# winbd-agent-project
+# WinBD Agent Project
 
-Project scaffold for the WinBD development agent.
+Private coding-agent starter repository.
+
+## Purpose
+
+This repository provides a basic structure and rules for an AI coding agent that can inspect, modify, test, and troubleshoot code inside an authorized repository.
+
+## Security
+
+- Never commit `.env` files.
+- Never hard-code API keys, passwords, tokens, or private keys.
+- Store secrets in environment variables or platform secret managers.
+- Do not expose credentials in logs, commits, screenshots, or chat messages.
+- Do not access systems or accounts that are not explicitly authorized.
 
 ## Structure
 
-```
-winbd-agent-project/
-├── README.md                      # This file
-├── .gitignore                     # Files/folders excluded from Git
-├── .env.example                   # Placeholder environment variables (copy to .env)
-├── agent/
-│   ├── AGENTS.md                  # Rules and operating instructions for the agent
-│   └── README.md                  # Agent-specific documentation
-├── scripts/
-│   └── check_secrets.py           # Pre-commit / CI secret-leak scanner
-└── .github/
-    └── workflows/
-        └── validate.yml           # CI: lint + secret scan on push/PR
-```
+- `agent/` — agent instructions
+- `scripts/` — repository validation scripts
+- `.github/workflows/` — GitHub Actions checks
+- `.env.example` — example environment-variable names only
 
-## Getting started
+## Local setup
 
-1. Copy the environment template and fill in real values locally:
-   ```bash
-   cp .env.example .env
-   ```
-2. **Never commit `.env`.** It is already listed in `.gitignore`.
-3. Review `agent/AGENTS.md` before running any automated agent against this repo.
+Copy:
 
-## Secret scanning
+`.env.example` → `.env`
 
-Before every commit, run:
+Then fill in the required values locally.
 
-```bash
-python scripts/check_secrets.py
-```
-
-This also runs automatically in CI via `.github/workflows/validate.yml`.
-
-## Environment variables
-
-See `.env.example` for the full list of expected variables. No real credentials
-are stored in this repository — all secrets must be supplied through your
-deployment platform's environment/secret manager (e.g. GitHub Actions secrets,
-Vercel/Render/Fly env vars, etc.).
+Do not upload `.env` to GitHub.
