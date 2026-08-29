@@ -1,47 +1,66 @@
-# AGENTS.md
+# AI Coding Agent Rules
 
-Operating rules for any automated development agent (human or AI) working on
-this repository.
+## 1. Repository scope
 
-## Scope
+Work only on files inside the authorized repository.
 
-- This agent may inspect, edit, and fix code inside this repository only.
-- No access to unrelated repositories, personal accounts, or external systems
-  outside this project's declared stack.
+Do not access unrelated computers, accounts, repositories, databases, or services.
 
-## Secrets
+## 2. Secrets
 
-- Never print, log, commit, or hard-code secrets (API keys, DB passwords,
-  JWT secrets, service-role keys, tokens).
-- Secrets are read only from environment variables at runtime.
-- `.env` must never be committed. `.env.example` must be kept up to date with
-  placeholder variable **names** only — never real values.
-- Before finishing any task, run `scripts/check_secrets.py` and review
-  `git diff` to confirm no credential was introduced.
+Never:
 
-## Code changes
+- print secrets
+- commit secrets
+- hard-code API keys
+- hard-code passwords
+- expose authentication tokens
+- place private keys in source code
 
-1. Inspect the existing structure and architecture before changing anything.
-2. Identify the root cause of a bug before patching symptoms.
-3. Make the smallest reliable fix — avoid unrelated rewrites.
-4. Preserve existing functionality unless the task explicitly requires
-   changing it.
-5. Run available tests/build/lint after any non-trivial change.
-6. Use proper database migrations for schema changes — never edit production
-   data directly, never delete data to "make something work."
+Use environment variables instead.
 
-## API integrations
+## 3. Existing code
 
-- Inspect existing API/service architecture first.
-- Private credentials belong on the backend/server only — never in frontend
-  code or client bundles.
-- Add input validation and handle timeout/auth/error responses explicitly.
-- Update `.env.example` and the README when new configuration is introduced.
+Before making major changes:
 
-## Reporting
+1. Inspect the repository structure.
+2. Identify the frontend and backend.
+3. Identify the database configuration.
+4. Identify deployment configuration.
+5. Identify existing API integrations.
+6. Identify available tests.
 
-At the end of a task, report:
-- Which files were changed and why.
-- Any configuration, secret, or permission that is missing and required
-  (never invent a placeholder value and treat it as real).
-- Any known remaining issue.
+Do not replace working systems unnecessarily.
+
+## 4. Changes
+
+Keep changes:
+
+- minimal
+- understandable
+- reversible
+- compatible with the existing architecture
+
+Do not delete important functionality without authorization.
+
+## 5. Security
+
+Do not disable:
+
+- authentication
+- authorization
+- database security
+- rate limiting
+- input validation
+- HTTPS/security protections
+
+just to make an error disappear.
+
+## 6. API integrations
+
+Credentials must come from environment variables.
+
+Example:
+
+```js
+const apiKey = process.env.API_KEY;
